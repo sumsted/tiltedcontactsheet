@@ -13,7 +13,7 @@ of rotation should be in the affected frame.
 
 original images are from https://unsplash.com
 
-(/building_out.jpg)
+![building](/building_out.jpg)
 
-(/mountain_out.jpg)
+![mountain](/mountain_out.jpg)
 
