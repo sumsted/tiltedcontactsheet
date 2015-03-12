@@ -85,8 +85,8 @@ class TiltedContactSheet:
 
 
 if __name__ == '__main__':
-    infile = 'building_in.jpg'
-    outfile = 'building_out.jpg'
+    infile = 'mountain_in.jpg'
+    outfile = 'mountain_out2.jpg'
     iba = open(infile, 'rb').read()
     tcs = TiltedContactSheet()
     oba = tcs.start(iba)
