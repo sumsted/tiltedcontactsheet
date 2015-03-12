@@ -4,7 +4,7 @@ This was inspired by a photographer's work. This photographer had a jig that he'
 of a scene. In some sections of the scene he would rate the camera slightly. This distortion had an interesting effect
 on the image. Unfortunately, I cannot recall the artists name. I do remember that one of his images was of a castle.
 
-This code creates a similar effect byt cutting up an image into frames, rotating some of the frames and then
+This code creates a similar effect by cutting up an image into frames, rotating some of the frames and then
 combining the frames to form a contact sheet.
 
 There is a problem in that the axis of rotation for affected frames is the center of the large image. Instead the center
