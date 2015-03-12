@@ -61,9 +61,12 @@ class TiltedContactSheet:
                 wy2 = wy1 + block_height
                 dx1 = block_width * h + (self._spacing + (h * self._spacing))
                 dy1 = block_height * v + (self._spacing + (v * self._spacing))
-                if v >= self._vrotate[0] and v <= self._vrotate[1] and h >= self._hrotate[0] and h <= self._hrotate[1]:
+                if self._vrotate[0] <= v <= self._vrotate[1] and self._hrotate[0] <= h <= self._hrotate[1]:
+                    margin = 20
+                    large_block = working_image.crop((wx1-margin, wy1-margin, wx2+margin, wy2+margin))
                     angle = self._rotate_angle if rotate_count % 2 == 0 else (-1 * self._rotate_angle)
-                    block = working_image.rotate(angle).crop((wx1, wy1, wx2, wy2))
+                    block = large_block.rotate(angle).crop((margin, margin,
+                                                            large_block.size[0]-margin, large_block.size[1]-margin))
                     rotate_count += 1
                 else:
                     block = working_image.crop((wx1, wy1, wx2, wy2))
@@ -82,8 +85,8 @@ class TiltedContactSheet:
 
 
 if __name__ == '__main__':
-    infile = 'mountain_in.jpg'
-    outfile = 'mountain_out.jpg'
+    infile = 'building_in.jpg'
+    outfile = 'building_out.jpg'
     iba = open(infile, 'rb').read()
     tcs = TiltedContactSheet()
     oba = tcs.start(iba)
