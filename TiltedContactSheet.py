@@ -7,9 +7,9 @@ import cStringIO
 class TiltedContactSheet:
 
     def __init__(self):
-        self._spacing = 4
+        self._spacing = 10
         self._hcells = 0
-        self._vcells = 20
+        self._vcells = 10
         self._hrotate = (2, 10)
         self._vrotate = (3, 17)
         self._rotate_angle = 3
