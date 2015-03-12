@@ -7,10 +7,6 @@ on the image. Unfortunately, I cannot recall the artists name. I do remember tha
 This code creates a similar effect by cutting up an image into frames, rotating some of the frames and then
 combining the frames to form a contact sheet.
 
-There is a problem in that the axis of rotation for affected frames is the center of the large image. Instead the center
-of rotation should be in the affected frame.
-
-
 original images are from https://unsplash.com
 
 ![building](/building_out.jpg)
