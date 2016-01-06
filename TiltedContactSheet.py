@@ -1,8 +1,7 @@
 __author__ = 'scottumsted'
 
-import Image
-import cStringIO
-
+from PIL import Image
+from io import BytesIO
 
 class TiltedContactSheet:
 
@@ -27,20 +26,20 @@ class TiltedContactSheet:
         x2 = 0
         y2 = 0
         width, height = original_image.size
-        if width > ((height*3)/2):
-            new_width = (3 * height) / 2
-            x1 = width/2 - new_width/2
+        if width > ((height*3)//2):
+            new_width = (3 * height) // 2
+            x1 = width//2 - new_width//2
             y1 = 0
             x2 = new_width + x1
             y2 = height
-            self._hcells = new_width/(((height/self._vcells)*3)/2)
+            self._hcells = new_width//(((height//self._vcells)*3)//2)
         else:
-            new_height = (2 * width) / 3
+            new_height = (2 * width) // 3
             x1 = 0
-            y1 = height/2 - new_height/2
+            y1 = height//2 - new_height//2
             x2 = width
             y2 = new_height + y1
-            self._hcells = width/(((new_height/self._vcells)*3)/2)
+            self._hcells = width//(((new_height//self._vcells)*3)//2)
         return original_image.crop((x1, y1, x2, y2))
 
     def _create_destination_image(self, reference_image):
@@ -49,10 +48,10 @@ class TiltedContactSheet:
         return Image.new('RGBA', (width, height), 'black')
 
     def _transform(self, working_image, destination_image):
-        block_width = working_image.size[0] / self._hcells
-        block_height = working_image.size[1] / self._vcells
+        block_width = working_image.size[0] // self._hcells
+        block_height = working_image.size[1] // self._vcells
         rotate_count = 0
-        for h in range(0, self._hcells):
+        for h in range(0, int(self._hcells)):
             for v in range(0, self._vcells):
                 # calculate working and destination coordinates
                 wx1 = block_width * h
@@ -73,14 +72,14 @@ class TiltedContactSheet:
                 destination_image.paste(block, (dx1, dy1))
 
     def _convert_image_to_bytes(self, image):
-        fp = cStringIO.StringIO()
+        fp = BytesIO()
         image.save(fp, 'JPEG')
         image_byte_array = fp.getvalue()
         fp.close()
         return image_byte_array
 
     def _convert_bytes_to_image(self, image_byte_array):
-        fp = cStringIO.StringIO(image_byte_array)
+        fp = BytesIO(image_byte_array)
         return Image.open(fp)
 
 

@@ -1,10 +1,10 @@
 #Tilted Contact Sheet
 
-This was inspired by a photographer's work. This photographer had a jig that he'd use to take hundreds of photographs
-of a scene. In some sections of the scene he would rate the camera slightly. This distortion had an interesting effect
-on the image. Unfortunately, I cannot recall the artists name. I do remember that one of his images was of a castle.
+I saw a photographer setup this jig that allowed him to split a complete scene into separate frames. In some sections of 
+the scene he would rotate the camera slightly. This distortion had an interesting effect on the image. 
+Unfortunately, I don't recall the artist's name. 
 
-This code creates a similar effect by cutting up an image into frames, rotating some of the frames and then
+This code attempts to create a similar effect by cutting up an image into frames, rotating some of the frames and then
 combining the frames to form a contact sheet.
 
 original images are from https://unsplash.com
@@ -13,3 +13,4 @@ original images are from https://unsplash.com
 
 ![mountain](/mountain_out.jpg)
 
+Tilted Contact Sheet requires Python 3.x and Pillow (pip install Pillow)
