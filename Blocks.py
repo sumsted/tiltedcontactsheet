@@ -1,24 +1,20 @@
-__author__ = 'scottumsted'
-
 from PIL import Image
 from io import BytesIO
+from random import shuffle
+
 
 SPACING = 10
 VCELLS = 10
 MARGIN = 20
-HROTATE = (2, 10)
-VROTATE = (3, 17)
-ROTATE_ANGLE = 3
 
 hcells = 0
-
 
 
 def start(image_byte_array):
     original_image = convert_bytes_to_image(image_byte_array)
     working_image = create_working_image(original_image)
     destination_image = create_destination_image(working_image)
-    transform(working_image, destination_image)
+    randomize(working_image, destination_image)
     return convert_image_to_bytes(destination_image)
 
 
@@ -52,28 +48,30 @@ def create_destination_image(reference_image):
     return Image.new('RGBA', (width, height), 'black')
 
 
-def transform(working_image, destination_image):
+def randomize(working_image, destination_image):
     block_width = working_image.size[0] // hcells
     block_height = working_image.size[1] // VCELLS
-    rotate_count = 0
-    for h in range(0, hcells):
-        for v in range(0, VCELLS):
-            # calculate working and destination coordinates
-            wx1 = block_width * h
-            wy1 = block_height * v
-            wx2 = wx1 + block_width
-            wy2 = wy1 + block_height
-            dx1 = block_width * h + (SPACING + (h * SPACING))
-            dy1 = block_height * v + (SPACING + (v * SPACING))
-            if VROTATE[0] <= v <= VROTATE[1] and HROTATE[0] <= h <= HROTATE[1]:
-                large_block = working_image.crop((wx1-MARGIN, wy1-MARGIN, wx2+MARGIN, wy2+MARGIN))
-                angle = ROTATE_ANGLE if rotate_count % 2 == 0 else (-1 * ROTATE_ANGLE)
-                block = large_block.rotate(angle).crop((MARGIN, MARGIN,
-                                                        large_block.size[0]-MARGIN, large_block.size[1]-MARGIN))
-                rotate_count += 1
-            else:
-                block = working_image.crop((wx1, wy1, wx2, wy2))
-            destination_image.paste(block, (dx1, dy1))
+
+    cell_coordinates = [ (x, y) for x in range(0, hcells) for y in range(0, VCELLS) ]
+    shuffle(cell_coordinates)
+    h2 = 0 
+    v2 = 0 
+    for coor in cell_coordinates:
+        # get random block in work image
+        wx1 = block_width * coor[0]
+        wy1 = block_height * coor[1]
+        wx2 = wx1 + block_width
+        wy2 = wy1 + block_height
+        block = working_image.crop((wx1, wy1, wx2, wy2))
+        
+        # paste in order to destination_image
+        dx1 = block_width * h2 + (SPACING + (h2 * SPACING))
+        dy1 = block_height * v2 + (SPACING + (v2 * SPACING))
+        destination_image.paste(block, (dx1, dy1))
+        v2 += 1
+        if v2 >= VCELLS:
+            h2 += 1
+            v2 = 0 
 
 
 def convert_image_to_bytes(image):
